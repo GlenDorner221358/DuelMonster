@@ -7,17 +7,26 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     // Add navigation here
     // ok
     // TAB NAVIGATION
+    // <NavigationContainer>
+    //   <Tab.Navigator initialRouteName='home'>
+    //     <Tab.Screen name="login" component={LoginScreen} />
+    //     <Tab.Screen name="register" component={RegisterScreen} />
+    //   </Tab.Navigator>
+    // </NavigationContainer>
+
+    // STACK NAVIGATION
     <NavigationContainer>
-      <Tab.Navigator initialRouteName='home'>
-        <Tab.Screen name="login" component={LoginScreen} />
-        <Tab.Screen name="register" component={RegisterScreen} />
-      </Tab.Navigator>
+      <Stack.Navigator initialRouteName='home' screenOptions={{headerShown: false}}>
+        <Stack.Screen name="login" component={LoginScreen} />
+        <Stack.Screen name="register" component={RegisterScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

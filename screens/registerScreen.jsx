@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
       backgroundColor: "#01172f",
       padding: 25,
       paddingBottom: 60,
-      paddingTop: 30
+      paddingTop: 60
   },
   title: {
       fontSize: 30,
@@ -75,11 +75,11 @@ const styles = StyleSheet.create({
   },
   loginPanel: {
     backgroundColor: "#DBE4EE",
-    flex: 1,
     padding: 10,
     width: 275,
     borderRadius: 9,
     alignItems: "center",
+    height: 420
   },
   textInput: {
     width: "100%",

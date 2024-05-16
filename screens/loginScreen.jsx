@@ -57,8 +57,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       backgroundColor: "#01172f",
       padding: 25,
-      paddingBottom: 150,
-      paddingTop: 30
+      paddingTop: 60
   },
   title: {
       fontSize: 30,
@@ -67,11 +66,11 @@ const styles = StyleSheet.create({
   },
   loginPanel: {
     backgroundColor: "#DBE4EE",
-    flex: 1,
     padding: 10,
     width: 275,
     borderRadius: 9,
     alignItems: "center",
+    height: 330
   },
   textInput: {
     width: "100%",
