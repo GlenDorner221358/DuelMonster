@@ -1,8 +1,15 @@
 import { StyleSheet, View, Image, Text, TextInput, Button, Pressable } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import React, { useState } from 'react'
+import { handleRegister } from '../services/DbService'
 
 function RegisterScreen( {navigation} ) {
+  
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const register = () => { handleRegister(name, email, password) }
+
   return (
     <View style={styles.container}>
 
@@ -19,6 +26,8 @@ function RegisterScreen( {navigation} ) {
           <TextInput
             style={styles.textInput}
             placeholder="Seto"
+            onChangeText={newText => setName(newText)}
+            defaultValue={name}
           />
         </View>
 
@@ -27,6 +36,8 @@ function RegisterScreen( {navigation} ) {
           <TextInput
             style={styles.textInput}
             placeholder="Kaiba@KaibaCorp.co.za"
+            onChangeText={newText => setEmail(newText)}
+            defaultValue={email}
           />
         </View>
 
@@ -35,16 +46,21 @@ function RegisterScreen( {navigation} ) {
           <TextInput
             style={styles.textInput}
             placeholder="BlueEyesWhiteDragon"
+            onChangeText={newText => setPassword(newText)}
+            defaultValue={password}
           />
         </View>
 
+        {/* Register button */}
         <View style={styles.Bertram}>
-          <Pressable style={{alignItems: "center"}} onPress={() => navigation.navigate('register')}>
+          <Pressable style={{alignItems: "center"}} onPress={register}>
             <Text style={{color: "white", fontSize: 21}}> Create Account </Text>
           </Pressable>
         </View>
       </View>
 
+
+      {/* Login Navigation */}
       <View>
         <Pressable style={styles.RegisterLink} onPress={() => navigation.navigate('login')}>
             <Text style={{color: "white", fontSize: 15}}> Already have an account? </Text>
@@ -75,7 +91,7 @@ const styles = StyleSheet.create({
   },
   loginPanel: {
     backgroundColor: "#DBE4EE",
-    padding: 10,
+    padding: 15,
     width: 275,
     borderRadius: 9,
     alignItems: "center",

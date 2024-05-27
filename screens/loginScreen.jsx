@@ -1,8 +1,15 @@
 import { StyleSheet, View, Text, TextInput, Button, Image, Pressable } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import React, { useState } from 'react'
+import { handleLogin } from '../services/DbService';
 
 function LoginScreen( {navigation} ) {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  //Login Function
+  const login = () => { handleLogin(email, password) }
+
   return (
     <View style={styles.container}>
 
@@ -19,6 +26,8 @@ function LoginScreen( {navigation} ) {
           <TextInput
             style={styles.textInput}
             placeholder="Kaiba@KaibaCorp.co.za"
+            onChangeText={newText => setEmail(newText)}
+            defaultValue={email}
           />
         </View>
 
@@ -27,16 +36,20 @@ function LoginScreen( {navigation} ) {
           <TextInput
             style={styles.textInput}
             placeholder="BlueEyesWhiteDragon"
+            onChangeText={newText => setPassword(newText)}
+            defaultValue={password}
           />
         </View>
 
+        {/* Login button */}
         <View style={styles.Bertram}>
-          <Pressable style={{alignItems: "center"}} onPress={() => navigation.navigate('register')}>
+          <Pressable style={{alignItems: "center"}} onPress={login}>
             <Text style={{color: "white", fontSize: 21}}> Log-In </Text>
           </Pressable>
         </View>
       </View>
 
+    {/* Register navigation button */}
       <View>
         <Pressable style={styles.RegisterLink} onPress={() => navigation.navigate('register')}>
             <Text style={{color: "white", fontSize: 15}}> Don't have an account? </Text>
@@ -66,7 +79,7 @@ const styles = StyleSheet.create({
   },
   loginPanel: {
     backgroundColor: "#DBE4EE",
-    padding: 10,
+    padding: 15,
     width: 275,
     borderRadius: 9,
     alignItems: "center",
