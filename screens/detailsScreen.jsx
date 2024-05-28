@@ -1,12 +1,52 @@
 import { StyleSheet, View, Text, TextInput, Button, Image, Pressable } from 'react-native'
 import React, { useState } from 'react'
-import { auth } from '../firebase'
-import { signOut } from 'firebase/auth'
-
+import { editCompetitionById } from '../services/DbService';
+import { useFocusEffect } from '@react-navigation/native';
+import { getUserName } from '../services/DbService';
 
 function DetailsScreen( {navigation, route} ) {
 
+    const [dataAfterJoin, setDataAfterJoin] = useState([])
     const { competitionData } = route.params;
+
+    // Getting the currently logged user's name
+    const [userName, setUserName] = useState('');
+    const [updatedCompetitionData, setUpdatedCompetitionData] = useState(competitionData);
+
+    const handleGettingOfData = async () => {
+    try {
+        const name = await getUserName();
+        console.log('Received username: ', name); // Logging the received data
+        setUserName(name);
+    } catch (error) {
+        console.error('Error fetching username:', error);
+    }
+    };
+
+    useFocusEffect(
+    React.useCallback(() => {
+        handleGettingOfData();
+        return () => {
+        // Cleanup if necessary
+        };
+    }, [])
+    );
+
+    const handleJoin = async () => {
+        try {
+            var compId = competitionData.id;
+
+            // need to set player2name to the username and open to false
+            const updatedData = { ...competitionData, player2name: userName, open: false };
+            setDataAfterJoin(updatedData);
+
+            await editCompetitionById(compId, updatedData);
+            setUpdatedCompetitionData(updatedData);
+        } catch (e) {
+            console.log("Error joining competition: " + e);
+        }
+    }
+    
 
   return (
     <View style={styles.container}>
@@ -18,19 +58,19 @@ function DetailsScreen( {navigation, route} ) {
             <View>
                 <Text style={{marginBottom: 10}}>
                     {/* {new Date(competitionData.date.toDate()).toLocaleDateString('en-GB')} {new Date(competitionData.date.toDate()).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} */}
-                    {competitionData.date}
+                    {updatedCompetitionData.date}
                 </Text>
             </View>
 
             <View style={{alignItems: "center"}}>
                 <Text style={styles.names}>
-                    {competitionData.player1name}
+                    {updatedCompetitionData.player1name}
                 </Text>
                 <Text style={styles.vs}>
                     VS
                 </Text>
                 <Text style={styles.names}>
-                    {competitionData.player2name}
+                    {updatedCompetitionData.player2name}
                 </Text>
             </View>
 
@@ -39,12 +79,12 @@ function DetailsScreen( {navigation, route} ) {
                     Winner
                 </Text>
                 <Text>
-                    {competitionData.winner}
+                    {updatedCompetitionData.winner}
                 </Text>
             </View>
 
             <View style={styles.Bertram}>
-                <Pressable style={{alignItems: "center"}} disabled={!competitionData.open}>
+                <Pressable style={{alignItems: "center"}} disabled={updatedCompetitionData.player2name !== 'JOIN'} onPress={handleJoin}>
                     <Text style={{color: "white", fontSize: 21}}> Join </Text>
                 </Pressable>
             </View>

@@ -21,6 +21,7 @@ function CompetitionsScreen( {navigation} ) {
             };
         }, [])
     )
+    
 
   return (
     <View style={styles.container}>
