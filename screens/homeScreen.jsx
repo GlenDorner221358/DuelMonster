@@ -25,6 +25,13 @@ function HomeScreen( {navigation} ) {
 
         <Text style={styles.title}>Home Screen</Text>
 
+        {/* Navigate to competitions page */}
+        <View style={styles.Bertram}>
+          <Pressable style={{alignItems: "center"}} onPress={() => navigation.navigate('competitions')}>
+            <Text style={{color: "white", fontSize: 21}}> Competitions </Text>
+          </Pressable>
+        </View>
+
         {/* Sign Out button */}
         <View style={styles.Bertram}>
           <Pressable style={{alignItems: "center"}} onPress={handleLogout}>

@@ -58,34 +58,31 @@ export const handleRegister = async (name, email, password) => {
 // FIRESTORE ||||||||||
 
 // Create new
-// export const createNewCompetition = async (item) => {
+export const createNewCompetition = async (item) => {
 
-//     try {
-//         const docRef = await addDoc(collection(db, "items"), item);
-//         console.log("Document written with ID: ", docRef.id);
-//         return true
-//     } catch (e) {
-//         console.error("Error adding document", e);
-//         return false
-//     }
+    try {
+        const docRef = await addDoc(collection(db, "duels"), item);
+        console.log("Document written with ID: ", docRef.id);
+        return true
+    } catch (e) {
+        console.error("Error adding document", e);
+        return false
+    }
 
-// }
+}
 
 // Get all
-// export const getAllCompetitions = async () => {
+export const getAllCompetitions = async () => {
 
-//     var allItems = []
+    var allItems = []
 
-//     var q = query( collection(db, "items"), orderBy('priority', "asc")
-//     // , where("priority", "==", true) 
-//     )
-//     const querySnapshot = await getDocs(q);
-//     querySnapshot.forEach((doc) => {
-//         // console.log(doc.id, " => ", doc.data());
+    var q = query( collection(db, "duels")
+    )
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        allItems.push({... doc.data(), id: doc.id})
+    });
 
-//         allItems.push({... doc.data(), id: doc.id})
-//     });
-
-//     console.log(allItems)
-//     return allItems
-// }
+    console.log(allItems)
+    return allItems
+}
