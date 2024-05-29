@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput, Button, Image, Pressable } from 'react-native'
+import { StyleSheet, View, Text, TextInput, Button, Image, Pressable, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import { handleLogin } from '../services/DbService';
 
@@ -11,51 +11,58 @@ function LoginScreen( {navigation} ) {
   const login = () => { handleLogin(email, password) }
 
   return (
-    <View style={styles.container}>
+    
+      <View style={styles.container}>
+        <ImageBackground 
+          source={require('../assets/background1.png')} 
+          style={styles.backgroundImage}
+        >
 
-      <Image 
-        style={styles.logo}
-        source={require('../assets/logoTitle.png')}
-      />
+        <Image 
+          style={styles.logo}
+          source={require('../assets/logoTitle.png')}
+        />
 
-      <View style={styles.loginPanel}>
-        <Text style={styles.title}>Log In</Text>
+        <View style={styles.loginPanel}>
+          <Text style={styles.title}>Log In</Text>
 
-        <View style={styles.Lawrence}>
-          <Text style={styles.Clarence}> Email: </Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Kaiba@KaibaCorp.co.za"
-            onChangeText={newText => setEmail(newText)}
-            defaultValue={email}
-          />
+          <View style={styles.Lawrence}>
+            <Text style={styles.Clarence}> Email: </Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Kaiba@KaibaCorp.co.za"
+              onChangeText={newText => setEmail(newText)}
+              defaultValue={email}
+            />
+          </View>
+
+          <View style={styles.Lawrence}>
+            <Text style={styles.Clarence}> Password: </Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="BlueEyesWhiteDragon"
+              onChangeText={newText => setPassword(newText)}
+              defaultValue={password}
+            />
+          </View>
+
+          {/* Login button */}
+          <View style={styles.Bertram}>
+            <Pressable style={{alignItems: "center"}} onPress={login}>
+              <Text style={{color: "white", fontSize: 21}}> Log-In </Text>
+            </Pressable>
+          </View>
         </View>
 
-        <View style={styles.Lawrence}>
-          <Text style={styles.Clarence}> Password: </Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="BlueEyesWhiteDragon"
-            onChangeText={newText => setPassword(newText)}
-            defaultValue={password}
-          />
-        </View>
-
-        {/* Login button */}
-        <View style={styles.Bertram}>
-          <Pressable style={{alignItems: "center"}} onPress={login}>
-            <Text style={{color: "white", fontSize: 21}}> Log-In </Text>
+      {/* Register navigation button */}
+        <View>
+          <Pressable style={styles.RegisterLink} onPress={() => navigation.navigate('register')}>
+              <Text style={{color: "white", fontSize: 15}}> Don't have an account? </Text>
+              <Text style={{color: "#D1AC00", fontSize: 15}}> Register Here </Text>
           </Pressable>
         </View>
-      </View>
 
-    {/* Register navigation button */}
-      <View>
-        <Pressable style={styles.RegisterLink} onPress={() => navigation.navigate('register')}>
-            <Text style={{color: "white", fontSize: 15}}> Don't have an account? </Text>
-            <Text style={{color: "#D1AC00", fontSize: 15}}> Register Here </Text>
-        </Pressable>
-      </View>
+      </ImageBackground>
 
     </View>
   )
@@ -64,13 +71,17 @@ function LoginScreen( {navigation} ) {
 export default LoginScreen
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    alignItems: "center",
+    justifyContent: "center",
+    width: 338
+  },
   container: {
       flex: 1,
-      // justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#01172f",
-      padding: 25,
-      paddingTop: 60
   },
   title: {
       fontSize: 30,

@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, Text, TextInput, Button, Pressable } from 'react-native'
+import { StyleSheet, View, Image, Text, TextInput, Button, Pressable, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import { handleRegister } from '../services/DbService'
 
@@ -12,6 +12,10 @@ function RegisterScreen( {navigation} ) {
 
   return (
     <View style={styles.container}>
+      <ImageBackground 
+          source={require('../assets/background1.png')} 
+          style={styles.backgroundImage}
+        >
 
       <Image 
         style={styles.logo}
@@ -68,6 +72,7 @@ function RegisterScreen( {navigation} ) {
         </Pressable>
       </View>
 
+      </ImageBackground>
     </View>
   )
 }
@@ -77,12 +82,15 @@ export default RegisterScreen
 const styles = StyleSheet.create({
   container: {
       flex: 1,
-      // justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#01172f",
-      padding: 25,
-      paddingBottom: 60,
-      paddingTop: 60
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    alignItems: "center",
+    justifyContent: "center",
+    width: 338
   },
   title: {
       fontSize: 30,
