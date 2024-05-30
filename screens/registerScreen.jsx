@@ -52,6 +52,7 @@ function RegisterScreen( {navigation} ) {
             placeholder="BlueEyesWhiteDragon"
             onChangeText={newText => setPassword(newText)}
             defaultValue={password}
+            secureTextEntry={true}
           />
         </View>
 
