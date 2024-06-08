@@ -33,6 +33,18 @@ const NewDuelScreen = ({navigation}) => {
         }
     }
 
+    //to set player1 name equal to the users name
+    const handleGettingOfData = async () => {
+    try {
+        const name = await getUserName();
+        console.log('Received username: ', name); // Logging the received data
+        setPlayer1name(name);
+    } catch (error) {
+        console.error('Error fetching username:', error);
+    }
+    };
+
+
   return (
     <View style={styles.container}>
 
@@ -48,12 +60,7 @@ const NewDuelScreen = ({navigation}) => {
         <View style={styles.loginPanel}>
 
             {/* player 1 */}
-            <TextInput
-                style={styles.textInput}
-                placeholder="Player 1 name"
-                onChangeText={newText => setPlayer1name(newText)}
-                defaultValue={player1name}
-            />
+            <Text> {player1name} </Text>
 
             {/* player 2 */}
             <TextInput
