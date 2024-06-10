@@ -1,123 +1,134 @@
-import { StyleSheet, View, Text, TextInput, Button, Image, Pressable, TouchableOpacity, Switch } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, View, Text, TextInput, Button, Image, Pressable, TouchableOpacity, Switch } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { createNewCompetition } from '../services/DbService';
+import { createNewCompetition, getUserName } from '../services/DbService'; // Import getUserName from the correct path
 
-const NewDuelScreen = ({navigation}) => {
+const NewDuelScreen = ({ navigation }) => {
+    const [player1name, setPlayer1name] = useState('');
+    const [player2name, setPlayer2name] = useState('');
 
-    const [player1name, setPlayer1name] = useState('')
-    const [player2name, setPlayer2name] = useState('')
-    const [date, setDate] = useState(null) // Firestore timestamp format
-    const [open, setOpen] = useState(false) // Boolean
+    const [date, setDate] = useState(null); // Firestore timestamp format
+    const [open, setOpen] = useState(false); // Boolean
+    
     // viewAble = firestore 'private' field in the duels db
-    const [notViewAble, setNotViewAble] = useState(false) // Boolean
-    const [password, setPassword] = useState('')
-    const [winner, setWinner] = useState('')
+    const [password, setPassword] = useState('');
+    const [winner, setWinner] = useState('');
    
     const handleCreation = async () => {
+        // If date is null, set it to the current timestamp
+        const timestamp = date || new Date().toISOString();
+        
+        // Determine the open state based on player2name
+        const openState = !player2name.trim();
+
         // Pass all our data to the function
         var items = {
             player1name,
             player2name, 
-            date, 
-            open: true, 
-            notViewAble: false, 
-            password: "",
+            date: timestamp, 
+            open: openState,  
+            password: password,
             winner,
-        }
-        var success = await createNewCompetition(items)
+        };
+        var success = await createNewCompetition(items);
         if(success){
-            navigation.goBack()
+            navigation.navigate("calculator", {player1name, player2name});
         } else {
             // todo validation on why
         }
-    }
-
-    //to set player1 name equal to the users name
-    const handleGettingOfData = async () => {
-    try {
-        const name = await getUserName();
-        console.log('Received username: ', name); // Logging the received data
-        setPlayer1name(name);
-    } catch (error) {
-        console.error('Error fetching username:', error);
-    }
     };
 
+    //to set player1 name equal to the user's name
+    const handleGettingOfData = async () => {
+        try {
+            const name = await getUserName();
+            console.log('Received username: ', name); // Logging the received data
+            setPlayer1name(name);
+        } catch (error) {
+            console.error('Error fetching username:', error);
+        }
+    };
 
-  return (
-    <View style={styles.container}>
+    useFocusEffect(
+        React.useCallback(() => {
+            handleGettingOfData();
+            return () => {
+            // Cleanup if necessary
+            };
+        }, [])
+    );
 
-        <Text style={styles.title}>New Duel</Text>
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>New Duel</Text>
 
-        {/* Navigate to competitions page */}
-        <View style={styles.Bertram}>
-          <Pressable style={{alignItems: "center"}} onPress={() => navigation.navigate('competitions')}>
-            <Text style={{color: "white", fontSize: 21}}> Cancel </Text>
-          </Pressable>
-        </View>
-
-        <View style={styles.loginPanel}>
-
-            {/* player 1 */}
-            <Text> {player1name} </Text>
-
-            {/* player 2 */}
-            <TextInput
-                style={styles.textInput}
-                placeholder="Player 2 name"
-                onChangeText={newText => setPlayer2name(newText)}
-                defaultValue={player2name}
-            />
-
-            {/* date */}
-            <TextInput
-                style={styles.textInput}
-                placeholder="date & time (YYYY-MM-DD HH:MM)"
-                onChangeText={newText => {
-                    const timestamp = new Date(newText).toISOString();
-                    setDate(timestamp);
-                }}
-                defaultValue={date ? new Date(date).toISOString().slice(0, 16).replace('T', ' ') : ''}
-            />
-
-            {/* password */}
-            <TextInput
-                style={styles.textInput}
-                placeholder="Password"
-                onChangeText={newText => setPassword(newText)}
-                defaultValue={password}
-            />
-
-            {/* winner */}
-            <TextInput
-                style={styles.textInput}
-                placeholder="Winner"
-                onChangeText={newText => setWinner(newText)}
-                defaultValue={winner}
-            />
-
-            {/* private */}
-            <View style={styles.switch}>
-                <Text>Set to private?</Text>
-                <Switch
-                    trackColor={{false: 'black', true: 'yellow'}}
-                    thumbColor={notViewAble ? 'yellow' : 'white'}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={(toggle) => setNotViewAble(toggle)}
-                    value={notViewAble}
-                />
+            {/* Navigate to competitions page */}
+            <View style={styles.Bertram}>
+                <Pressable style={{ alignItems: "center" }} onPress={() => navigation.navigate('competitions')}>
+                    <Text style={{ color: "white", fontSize: 21 }}> Cancel </Text>
+                </Pressable>
             </View>
 
-            <TouchableOpacity style={styles.Bertram} onPress={handleCreation}>
-                <Text style={{color: "white", fontSize: 21, textAlign: "center"}}>Create new duel</Text>
-            </TouchableOpacity>
-        
-        </View>  
+            <View style={styles.loginPanel}>
+                {/* player 1 */}
+                <Text> {player1name} </Text>
 
-    </View>
-  )
-}
+                <Text> VS </Text>
+
+                {/* player 2 */}
+                <TextInput
+                    style={styles.textInput}
+                    placeholder="Player 2 name"
+                    onChangeText={newText => setPlayer2name(newText)}
+                    defaultValue={player2name}
+                />
+
+                {/* date */}
+                {/* <TextInput
+                    style={styles.textInput}
+                    placeholder="date & time (YYYY-MM-DD HH:MM)"
+                    onChangeText={newText => {
+                        const timestamp = new Date(newText).toISOString();
+                        setDate(timestamp);
+                    }}
+                    defaultValue={date ? new Date(date).toISOString().slice(0, 16).replace('T', ' ') : ''}
+                /> */}
+
+                {/* password */}
+                <TextInput
+                    style={styles.textInput}
+                    placeholder="Password"
+                    onChangeText={newText => setPassword(newText)}
+                    defaultValue={password}
+                />
+
+                {/* winner */}
+                {/* <TextInput
+                    style={styles.textInput}
+                    placeholder="Winner"
+                    onChangeText={newText => setWinner(newText)}
+                    defaultValue={winner}
+                /> */}
+
+                {/* private */}
+                {/* <View style={styles.switch}>
+                    <Text>Set to private?</Text>
+                    <Switch
+                        trackColor={{ false: 'black', true: 'yellow' }}
+                        thumbColor={notViewAble ? 'yellow' : 'white'}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={(toggle) => setNotViewAble(toggle)}
+                        value={notViewAble}
+                    />
+                </View> */}
+
+                <TouchableOpacity style={styles.Bertram} onPress={handleCreation}>
+                    <Text style={{ color: "white", fontSize: 21, textAlign: "center" }}>Create new duel</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+};
 
 export default NewDuelScreen
 

@@ -7,6 +7,8 @@ import { collection, addDoc, setDoc, getDocs, doc, query, orderBy, where, update
 
 var loggedEmail = "";
 
+var newDuelId = "";
+
 
 // FIREBASE ||||||||||
 
@@ -67,6 +69,7 @@ export const createNewCompetition = async (item) => {
     try {
         const docRef = await addDoc(collection(db, "duels"), item);
         console.log("Document written with ID: ", docRef.id);
+        newDuelId = docRef.id;
         return true
     } catch (e) {
         console.error("Error adding document", e);
@@ -125,5 +128,14 @@ export const editCompetitionById = async (id, updatedData) => {
     } catch (e) {
         console.error("Error updating document", e);
         return false;
+    }
+}
+
+// Get new duels id
+export const getNewDuelId = async () => {
+    try {
+        return newDuelId;
+    } catch (e) {
+       console.error("Literally how", e);
     }
 }

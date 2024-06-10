@@ -1,5 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text } from 'react-native';
 import LoginScreen from './screens/loginScreen';
 import RegisterScreen from './screens/registerScreen';
 import HomeScreen from './screens/homeScreen';
@@ -12,6 +10,7 @@ import { auth } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import DetailsScreen from './screens/detailsScreen';
 import NewDuelScreen from './screens/newDuelScreen';
+import CalculatorScreen from './screens/calculatorScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -40,14 +39,6 @@ export default function App() {
   return (
     // Add navigation here
     // ok
-    // TAB NAVIGATION
-    // <NavigationContainer>
-    //   <Tab.Navigator initialRouteName='home'>
-    //     <Tab.Screen name="login" component={LoginScreen} />
-    //     <Tab.Screen name="register" component={RegisterScreen} />
-    //   </Tab.Navigator>
-    // </NavigationContainer>
-
     // STACK NAVIGATION
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -57,6 +48,7 @@ export default function App() {
             <Stack.Screen name="competitions" component={CompetitionsScreen} />
             <Stack.Screen name="details" component={DetailsScreen} />
             <Stack.Screen name="newDuel" component={NewDuelScreen} />
+            <Stack.Screen name="calculator" component={CalculatorScreen} />
 
           </>
         ) : (
