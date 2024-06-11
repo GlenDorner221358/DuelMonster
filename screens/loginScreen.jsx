@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
       backgroundColor: "#01172f",
   },
   title: {
-      fontSize: 30,
-      fontWeight: 'bold',
-      color: "#01172f",
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: "#01172f",
   },
   loginPanel: {
     backgroundColor: "#DBE4EE",

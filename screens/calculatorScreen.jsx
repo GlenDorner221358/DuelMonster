@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Button, ImageBackground } from 'react-native';
 import React, { useState } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { editCompetitionById, getNewDuelId } from '../services/DbService';
@@ -70,39 +70,65 @@ const CalculatorScreen = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.calculator}>
-                <Text style={styles.playerName}>{player1name}</Text>
-                <Text style={styles.lifePoints}>{player1LifePoints}</Text>
-                <View style={styles.buttonsContainer}>
-                    <Button title="+50" onPress={() => updateLifePoints(1, 50)} />
-                    <Button title="+100" onPress={() => updateLifePoints(1, 100)} />
-                    <Button title="+500" onPress={() => updateLifePoints(1, 500)} />
-                    <Button title="+1000" onPress={() => updateLifePoints(1, 1000)} />
-                    <Button title="-50" onPress={() => updateLifePoints(1, -50)} />
-                    <Button title="-100" onPress={() => updateLifePoints(1, -100)} />
-                    <Button title="-500" onPress={() => updateLifePoints(1, -500)} />
-                    <Button title="-1000" onPress={() => updateLifePoints(1, -1000)} />
+
+            <ImageBackground
+                style={styles.backgroundImage}
+                source={require("../assets/DuelBackground.jpg")} 
+            >
+
+                <View style={styles.calculator}>
+
+                    <View style={{paddingLeft: 15, paddingRight: 15, width: 200, padding: 5, borderRadius: 10, backgroundColor: '#01172f', alignItems: "center", marginTop: 10}}>
+                        <Text style={styles.playerName}>{player1name}</Text>
+                    </View>
+
+                    <Text style={styles.lifePoints}>{player1LifePoints}</Text>
+
+                    <View style={styles.buttonsContainer1}>
+                        <Button title="+50" onPress={() => updateLifePoints(1, 50)} />
+                        <Button title="+100" onPress={() => updateLifePoints(1, 100)} />
+                        <Button title="+500" onPress={() => updateLifePoints(1, 500)} />
+                        <Button title="+1000" onPress={() => updateLifePoints(1, 1000)} />
+                    </View>
+
+                    <View style={styles.buttonsContainer1}>
+                        <Button title="-50" onPress={() => updateLifePoints(1, -50)} />
+                        <Button title="-100" onPress={() => updateLifePoints(1, -100)} />
+                        <Button title="-500" onPress={() => updateLifePoints(1, -500)} />
+                        <Button title="-1000" onPress={() => updateLifePoints(1, -1000)} />
+                    </View>
 
                 </View>
-            </View>
-            <View style={styles.calculator}>
-                <Text style={styles.playerName}>{player2name}</Text>
-                <Text style={styles.lifePoints}>{player2LifePoints}</Text>
-                <View style={styles.buttonsContainer}>
-                    <Button title="+50" onPress={() => updateLifePoints(1, 50)} />
-                    <Button title="+100" onPress={() => updateLifePoints(1, 100)} />
-                    <Button title="+500" onPress={() => updateLifePoints(1, 500)} />
-                    <Button title="+1000" onPress={() => updateLifePoints(1, 1000)} />
-                    <Button title="-50" onPress={() => updateLifePoints(1, -50)} />
-                    <Button title="-100" onPress={() => updateLifePoints(1, -100)} />
-                    <Button title="-500" onPress={() => updateLifePoints(1, -500)} />
-                    <Button title="-1000" onPress={() => updateLifePoints(1, -1000)} />
-                </View>
-            </View>
 
-            <TouchableOpacity style={styles.cancelButton} onPress={handleDuelCancel}>
-                <Text style={styles.cancelButtonText}>Cancel Duel</Text>
-            </TouchableOpacity>
+                <View style={styles.calculator}>
+
+                    <View style={{paddingLeft: 15, paddingRight: 15, width: 200, padding: 5, borderRadius: 10, backgroundColor: '#01172f', alignItems: "center", marginTop: 10}}>
+                        <Text style={styles.playerName}>{player2name}</Text>
+                    </View>
+
+                    <Text style={styles.lifePoints}>{player2LifePoints}</Text>
+
+                    <View style={styles.buttonsContainer2}>
+                        <Button title="+50" onPress={() => updateLifePoints(2, 50)} />
+                        <Button title="+100" onPress={() => updateLifePoints(2, 100)} />
+                        <Button title="+500" onPress={() => updateLifePoints(2, 500)} />
+                        <Button title="+1000" onPress={() => updateLifePoints(2, 1000)} />
+                    </View>
+
+                    <View style={styles.buttonsContainer2}>
+                        <Button title="-50" onPress={() => updateLifePoints(2, -50)} />
+                        <Button title="-100" onPress={() => updateLifePoints(2, -100)} />
+                        <Button title="-500" onPress={() => updateLifePoints(2, -500)} />
+                        <Button title="-1000" onPress={() => updateLifePoints(2, -1000)} />
+                    </View>
+                </View>
+
+                <TouchableOpacity style={styles.cancelButton} onPress={handleDuelCancel}>
+                    <Text style={styles.cancelButtonText}>CANCEL DUEL</Text>
+                </TouchableOpacity>
+
+            </ImageBackground>
+
         </View>
     );
 };
@@ -114,91 +140,70 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: '#01172f',
-        padding: 25,
-        paddingTop: 60,
     },
     title: {
         fontSize: 30,
         fontWeight: 'bold',
         color: 'white',
     },
-    loginPanel: {
-        backgroundColor: '#DBE4EE',
-        padding: 10,
-        width: 275,
-        borderRadius: 9,
-        alignItems: 'center',
-        height: 330,
-    },
-    textInput: {
-        width: '100%',
-        backgroundColor: 'white',
-        padding: 5,
-        height: 40,
-        borderRadius: 5,
-        borderTopLeftRadius: 0,
-        borderColor: 'gray',
-        borderWidth: 1,
-    },
-    Bertram: {
-        marginTop: 20,
-        width: '100%',
-        backgroundColor: '#D1AC00',
-        borderRadius: 5,
-        padding: 5,
-    },
-    Lawrence: {
-        flexDirection: 'column',
-        marginBottom: 10,
-        marginTop: 20,
-        width: '100%',
-    },
-    Clarence: {
-        borderTopLeftRadius: 5,
-        borderTopRightRadius: 5,
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderBottomWidth: 0,
-        width: 90,
-        backgroundColor: 'aliceblue',
-        fontWeight: '500',
-    },
-    RegisterLink: {
-        marginTop: 10,
-        alignItems: 'center',
-    },
-    logo: {
-        width: 220,
-        height: 70,
-        borderRadius: 5,
-        marginBottom: 20,
-    },
     calculator: {
         marginBottom: 20,
         alignItems: 'center',
+        backgroundColor: "#DBE4EE",
+        flex: 1,
+        width: 300,
+        borderRadius: 15
     },
     playerName: {
         fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 10,
+        color: "#D1AC00",
     },
     lifePoints: {
         fontSize: 30,
         marginBottom: 10,
+        fontStyle: "italic",
+        fontWeight: "600",
     },
-    buttonsContainer: {
+    buttonsContainer1: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 150,
+        width: 300,
+        padding: 15,
+        backgroundColor: "#85ABCE"
+    },
+    buttonsContainer2: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: 300,
+        padding: 15,
+        backgroundColor: "#593F52"
     },
     cancelButton: {
         marginTop: 20,
         padding: 10,
         backgroundColor: 'red',
         borderRadius: 5,
+        width: 250,
+        height: 60,
+        alignItems: "center",
+        justifyContent: "center"
     },
     cancelButtonText: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 18,
+        fontWeight: "600",
+        fontStyle: "italic"
     },
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        alignItems: "center",
+        justifyContent: "center",
+        width: 338,
+        paddingLeft: 25,
+        paddingRight: 25,
+        paddingTop: 60,
+        paddingBottom: 50
+    }
 });

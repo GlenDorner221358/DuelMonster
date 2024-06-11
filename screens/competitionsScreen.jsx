@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Pressable, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, View, Text, Pressable, TouchableOpacity, FlatList, ImageBackground } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { getAllCompetitions } from '../services/DbService';
@@ -44,27 +44,36 @@ function CompetitionsScreen({ navigation }) {
     return (
         <View style={styles.container}>
 
-            <Text style={styles.title}>Competitions Screen</Text>
+            <ImageBackground
+                style={styles.backgroundImage}
+                source={require("../assets/CompetitionsBackground.jpg")}  
+            >
 
-            <View style={styles.Bertram}>
-                <Pressable style={{ alignItems: "center" }} onPress={() => navigation.navigate('home')}>
-                    <Text style={{ color: "white", fontSize: 21 }}> Home </Text>
-                </Pressable>
-            </View>
+                <Text style={styles.title}>All Competitions</Text>
 
-            <View style={styles.Bertram}>
-                <Pressable style={{ alignItems: "center" }} onPress={() => navigation.navigate('newDuel')}>
-                    <Text style={{ color: "white", fontSize: 21 }}> New Duel </Text>
-                </Pressable>
-            </View>
+                <FlatList
+                    style={styles.flatlist}
+                    data={allComps}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => index.toString()}
+                    contentContainerStyle={styles.flatListContent}
+                />
 
-            <FlatList
-                style={styles.flatlist}
-                data={allComps}
-                renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={styles.flatListContent}
-            />
+                <View style={{ backgroundColor: '#01172f', padding: 20, paddingTop: 10, borderRadius: 10, gap: 15, marginBottom: 35, marginTop: 15, alignItems: "center", width: 290}}>
+                    <View style={styles.Bertram}>
+                        <Pressable style={{ alignItems: "center" }} onPress={() => navigation.navigate('home')}>
+                            <Text style={{ color: "white", fontSize: 21 }}> Home </Text>
+                        </Pressable>
+                    </View>
+
+                    <View style={styles.Bertram}>
+                        <Pressable style={{ alignItems: "center" }} onPress={() => navigation.navigate('newDuel')}>
+                            <Text style={{ color: "white", fontSize: 21 }}> New Duel </Text>
+                        </Pressable>
+                    </View>
+                </View>
+
+            </ImageBackground>
         </View>
     );
 }
@@ -76,9 +85,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         backgroundColor: "#01172f",
-        paddingLeft: 25,
-        paddingRight: 25,
-        paddingTop: 60
     },
     names: {
         fontSize: 18,
@@ -116,10 +122,20 @@ const styles = StyleSheet.create({
         fontStyle: "italic"
     },
     flatlist: {
-        marginTop: 25
+        marginTop: 15
     },
     flatListContent: {
         alignItems: 'center',
         justifyContent: "center"
+    },
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        alignItems: "center",
+        justifyContent: "center",
+        width: 338,
+        paddingLeft: 25,
+        paddingRight: 25,
+        paddingTop: 60
     }
 });
