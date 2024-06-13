@@ -6,39 +6,45 @@ import { createNewCompetition, getUserName } from '../services/DbService'; // Im
 const NewDuelScreen = ({ navigation }) => {
     const [player1name, setPlayer1name] = useState('');
     const [player2name, setPlayer2name] = useState('');
-
     const [date, setDate] = useState(null); // Firestore timestamp format
     const [open, setOpen] = useState(false); // Boolean
-    
-    // viewAble = firestore 'private' field in the duels db
     const [password, setPassword] = useState('');
     const [winner, setWinner] = useState('');
-   
+
     const handleCreation = async () => {
-        // If date is null, set it to the current timestamp
+        // If player2name is empty, set it to default
+        const player2NameToUse = player2name.trim() ? player2name : 'Looking for player 2...';
+
+        // Set date to the current timestamp
         const timestamp = date || new Date().toISOString();
-        
+
         // Determine the open state based on player2name
         const openState = !player2name.trim();
 
         // Pass all our data to the function
-        var items = {
+        const items = {
             player1name,
-            player2name, 
+            player2name: player2NameToUse, 
             date: timestamp, 
             open: openState,  
-            password: password,
+            password,
             winner,
         };
-        var success = await createNewCompetition(items);
-        if(success){
-            navigation.navigate("calculator", {player1name, player2name});
+        
+        const success = await createNewCompetition(items);
+        if (success) {
+            if (player2NameToUse === 'Looking for player 2...') {
+                navigation.navigate('competitions');
+            } else {
+                navigation.navigate('calculator', { player1name, player2name: player2NameToUse });
+            }
         } else {
-            // todo validation on why
+            // Handle validation failure
+            console.error('Failed to create a new duel.');
         }
     };
 
-    //to set player1 name equal to the user's name
+    // To set player1 name equal to the user's name
     const handleGettingOfData = async () => {
         try {
             const name = await getUserName();
@@ -53,7 +59,7 @@ const NewDuelScreen = ({ navigation }) => {
         React.useCallback(() => {
             handleGettingOfData();
             return () => {
-            // Cleanup if necessary
+                // Cleanup if necessary
             };
         }, [])
     );
@@ -65,7 +71,7 @@ const NewDuelScreen = ({ navigation }) => {
             {/* Navigate to competitions page */}
             <View style={styles.Bertram}>
                 <Pressable style={{ alignItems: "center" }} onPress={() => navigation.navigate('competitions')}>
-                    <Text style={{ color: "white", fontSize: 21 }}> Cancel </Text>
+                    <Text style={{ color: "white", fontSize: 21 }}>Cancel</Text>
                 </Pressable>
             </View>
 
@@ -83,17 +89,6 @@ const NewDuelScreen = ({ navigation }) => {
                     defaultValue={player2name}
                 />
 
-                {/* date */}
-                {/* <TextInput
-                    style={styles.textInput}
-                    placeholder="date & time (YYYY-MM-DD HH:MM)"
-                    onChangeText={newText => {
-                        const timestamp = new Date(newText).toISOString();
-                        setDate(timestamp);
-                    }}
-                    defaultValue={date ? new Date(date).toISOString().slice(0, 16).replace('T', ' ') : ''}
-                /> */}
-
                 {/* password */}
                 <TextInput
                     style={styles.textInput}
@@ -101,26 +96,6 @@ const NewDuelScreen = ({ navigation }) => {
                     onChangeText={newText => setPassword(newText)}
                     defaultValue={password}
                 />
-
-                {/* winner */}
-                {/* <TextInput
-                    style={styles.textInput}
-                    placeholder="Winner"
-                    onChangeText={newText => setWinner(newText)}
-                    defaultValue={winner}
-                /> */}
-
-                {/* private */}
-                {/* <View style={styles.switch}>
-                    <Text>Set to private?</Text>
-                    <Switch
-                        trackColor={{ false: 'black', true: 'yellow' }}
-                        thumbColor={notViewAble ? 'yellow' : 'white'}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={(toggle) => setNotViewAble(toggle)}
-                        value={notViewAble}
-                    />
-                </View> */}
 
                 <TouchableOpacity style={styles.Bertram} onPress={handleCreation}>
                     <Text style={{ color: "white", fontSize: 21, textAlign: "center" }}>Create new duel</Text>

@@ -31,7 +31,7 @@ const CalculatorScreen = () => {
         };
         const success = await editCompetitionById(duelId, items);
         if(success){
-            navigation.navigate("CompetitionsScreen");
+            navigation.navigate("competitions");
         } else {
             console.error("Failed to end the duel");
         }

@@ -48,33 +48,35 @@ function HomeScreen({ navigation }) {
 
       <ImageBackground
         style={styles.backgroundImage}
-        source={require("../assets/homeBackground.jpg")}  
+        source={require("../assets/HomeBackground.jpg")}  
       >
 
-      <View style={{ backgroundColor: '#01172f', marginBottom: 20, padding: 15, borderRadius: 10 }}>
+      <View style={{ backgroundColor: '#D1AC00', marginBottom: 20, padding: 15, borderRadius: 10, marginTop: 50 }}>
         <Text style={styles.title}>Welcome {userName}</Text>
       </View>
 
-      <Image 
-        source={require('../assets/blue_eyes.png')}
-        style={styles.CoolMonster}
-      />
+      {/* <Image  */}
+        {/* source={require('../assets/blue_eyes.png')} */}
+        {/* style={styles.CoolMonster} */}
+      {/* /> */}
+      <View style={{flex: 1}}></View>
+
       
-      <View style={{ backgroundColor: '#01172f', padding: 20, borderRadius: 10, gap: 15 }}>
+      <View style={{ backgroundColor: '#DBE4EE', padding: 20, borderRadius: 10, gap: 15, flexDirection: 'row' }}>
 
         {/* Navigate to competitions page */}
-        <View style={styles.Bertram}>
-          <Pressable style={{ alignItems: 'center' }} onPress={() => navigation.navigate('competitions')}>
-            <Text style={{ color: 'white', fontSize: 21 }}> Competitions </Text>
-          </Pressable>
-        </View>
+          <View style={styles.Bertram}>
+            <Pressable style={{ alignItems: 'center' }} onPress={() => navigation.navigate('competitions')}>
+              <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}> Competitions </Text>
+            </Pressable>
+          </View>
 
-        {/* Sign Out button */}
-        <View style={styles.Bertram}>
-          <Pressable style={{ alignItems: 'center' }} onPress={handleLogout}>
-            <Text style={{ color: 'white', fontSize: 21 }}> Sign Out </Text>
-          </Pressable>
-        </View>
+          {/* Sign Out button */}
+          <View style={styles.Bertram}>
+            <Pressable style={{ alignItems: 'center' }} onPress={handleLogout}>
+              <Text style={{ color: 'white', fontSize: 21, fontWeight: 'bold' }}> Sign Out </Text>
+            </Pressable>
+          </View>
 
       </View>
 
@@ -90,24 +92,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#01172f'
+    backgroundColor: '#01172F'
   },
   title: {
     fontSize: 30,
     fontWeight: 'bold',
     // color: 'white',
-    color: '#D1AC00',
+    color: '#DBE4EE',
   },
   Bertram: {
-    width: 230,
+    width: 150,
     backgroundColor: '#D1AC00',
     borderRadius: 5,
-    padding: 5,
+    padding: 10,
+    justifyContent: "center",
   },
   CoolMonster: {
-    width: 200,
-    height: 200,
-    marginBottom: 10
+    flex: 1,
+    height: 360,
+    width: 335,
+    marginBottom: 150,
+    marginTop: 150
   },
   backgroundImage: {
     flex: 1,

@@ -44,10 +44,10 @@ function CompetitionsScreen({ navigation }) {
     return (
         <View style={styles.container}>
 
-            <ImageBackground
-                style={styles.backgroundImage}
-                source={require("../assets/CompetitionsBackground.jpg")}  
-            >
+            {/* <ImageBackground */}
+                {/* style={styles.backgroundImage} */}
+                {/* source={require("../assets/CompetitionsBackground.jpg")}   */}
+            {/* > */}
 
                 <Text style={styles.title}>All Competitions</Text>
 
@@ -59,21 +59,21 @@ function CompetitionsScreen({ navigation }) {
                     contentContainerStyle={styles.flatListContent}
                 />
 
-                <View style={{ backgroundColor: '#01172f', padding: 20, paddingTop: 10, borderRadius: 10, gap: 15, marginBottom: 35, marginTop: 15, alignItems: "center", width: 290}}>
+                <View style={{ backgroundColor: '#DBE4EE', padding: 20, borderRadius: 10, gap: 15, flexDirection: 'row', borderTopWidth: 3, borderTopColor: 'black' }}>
                     <View style={styles.Bertram}>
                         <Pressable style={{ alignItems: "center" }} onPress={() => navigation.navigate('home')}>
-                            <Text style={{ color: "white", fontSize: 21 }}> Home </Text>
+                            <Text style={{ color: "white", fontSize: 21, fontWeight: 'bold' }}> Home </Text>
                         </Pressable>
                     </View>
 
                     <View style={styles.Bertram}>
                         <Pressable style={{ alignItems: "center" }} onPress={() => navigation.navigate('newDuel')}>
-                            <Text style={{ color: "white", fontSize: 21 }}> New Duel </Text>
+                            <Text style={{ color: "white", fontSize: 21, fontWeight: 'bold' }}> New Duel </Text>
                         </Pressable>
                     </View>
                 </View>
 
-            </ImageBackground>
+            {/* </ImageBackground> */}
         </View>
     );
 }
@@ -82,6 +82,7 @@ export default CompetitionsScreen;
 
 const styles = StyleSheet.create({
     container: {
+        paddingTop: 25,
         flex: 1,
         alignItems: "center",
         backgroundColor: "#01172f",
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     },
     singleCompPanel: {
         flexDirection: "column",
-        marginBottom: 30,
+        marginBottom: 20,
         backgroundColor: "#DBE4EE",
         padding: 10,
         width: 290,
@@ -108,11 +109,10 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     Bertram: {
-        marginTop: 10,
-        width: "100%",
+        width: 150,
         backgroundColor: "#D1AC00",
         borderRadius: 5,
-        padding: 5
+        padding: 10,
     },
     vs: {
         marginLeft: 15,
