@@ -87,7 +87,7 @@ function DetailsScreen({ navigation, route }) {
                     
                 </View>
 
-                {updatedCompetitionData.player2name === 'Looking for player 2...' && (
+                {updatedCompetitionData.player2name === 'Looking for player 2...' && userName !== updatedCompetitionData.player1name && (
                     <View style={styles.Bertram}>
                         <Pressable style={{ alignItems: "center" }} onPress={handleJoin}>
                             <Text style={{ color: "white", fontSize: 21, fontWeight: 'bold', fontStyle: 'italic' }}> Join Duel </Text>
@@ -95,9 +95,15 @@ function DetailsScreen({ navigation, route }) {
                     </View>
                 )}
 
+
                 {updatedCompetitionData.player2name === userName && (
                     <View style={styles.Bertram}>
-                        <Pressable style={{ alignItems: "center" }} onPress={() => navigation.navigate('duelScreen', { competitionData: updatedCompetitionData })}>
+                        <Pressable style={{ alignItems: "center" }} 
+                            onPress={() => navigation.navigate('calculator', { 
+                                player1name: updatedCompetitionData.player1name, 
+                                player2name: userName 
+                                })}
+                        >
                             <Text style={{ color: "white", fontSize: 21, fontWeight: 'bold', fontStyle: 'italic' }}> Start Duel </Text>
                         </Pressable>
                     </View>
