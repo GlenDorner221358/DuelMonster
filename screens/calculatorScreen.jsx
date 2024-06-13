@@ -1,39 +1,69 @@
 import { StyleSheet, View, Text, TouchableOpacity, Button, ImageBackground } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-import { editCompetitionById, getNewDuelId } from '../services/DbService';
+import { editCompetitionById, getNewDuelId, getUserData, updateUserData } from '../services/DbService';
 
 const CalculatorScreen = () => {
     const navigation = useNavigation();
     const route = useRoute();
-    const { player1name, player2name } = route.params;
+    const { player1name, player2name, oldID } = route.params;
 
     const [player1LifePoints, setPlayer1LifePoints] = useState(8000);
     const [player2LifePoints, setPlayer2LifePoints] = useState(8000);
+    const [duelId, setDuelId] = useState(oldID || "");
 
-    const [duelId, setDuelId] = useState("");
+    useEffect(() => {
+        const initializeDuelId = async () => {
+            if (!oldID) {
+                const newDuelId = await getNewDuelId();
+                setDuelId(newDuelId);
+                console.log('New Duel Id', newDuelId);
+            } else {
+                console.log('Old Duel Id', oldID);
+            }
+        };
+
+        initializeDuelId();
+    }, [oldID]);
 
     const handleDuelCancel = async () => {
         const items = { 
-            winner: "DNF",
+            winner: "",
         };
         const success = await editCompetitionById(duelId, items);
         if(success){
             navigation.navigate("competitions");
         } else {
-            console.error("Failed to end the duel");
+            console.error("Failed to cancel the duel");
         }
     };
 
     const handleDuelOver = async (winner) => {
-        const items = { 
-            winner: winner,
-        };
-        const success = await editCompetitionById(duelId, items);
-        if(success){
-            navigation.navigate("competitions");
-        } else {
-            console.error("Failed to end the duel");
+        try {
+            // Update competition data with the winner
+            const items = { winner: winner };
+            const success = await editCompetitionById(duelId, items);
+    
+            if (success) {
+                // Get the winner's user data by username
+                const userData = await getUserData(winner);
+                if (userData) {
+                    const currentWins = userData.wins || 0;
+                    const newWins = currentWins + 1;
+    
+                    // Update the winner's wins in Firestore
+                    await updateUserData(winner, { wins: newWins });
+                } else {
+                    console.log("Winner is not a registered user, skipping user data update.");
+                }
+    
+                // Navigate to the competitions screen
+                navigation.navigate("competitions");
+            } else {
+                console.error("Failed to end the duel");
+            }
+        } catch (error) {
+            console.error("Error handling duel over:", error);
         }
     };
 
@@ -49,35 +79,13 @@ const CalculatorScreen = () => {
         }
     };
 
-    //to get the duels id
-    const handleGettingOfData = async () => {
-        try {
-            const GottenDuelId = await getNewDuelId();
-            setDuelId(GottenDuelId);
-            console.log('Duel Id', duelId); // Logging the received data
-        } catch (error) {
-            console.error('My mind is blown at how this doesnt work', error);
-        }
-    };
-
-    useFocusEffect(
-        React.useCallback(() => {
-            handleGettingOfData();
-            return () => {
-            };
-        }, [])
-    );
-
     return (
         <View style={styles.container}>
-
             <ImageBackground
                 style={styles.backgroundImage}
                 source={require("../assets/DuelBackground.jpg")} 
             >
-
                 <View style={styles.calculator}>
-
                     <View style={{paddingLeft: 15, paddingRight: 15, width: 200, padding: 5, borderRadius: 10, backgroundColor: '#01172f', alignItems: "center", marginTop: 10}}>
                         <Text style={styles.playerName}>{player1name}</Text>
                     </View>
@@ -97,11 +105,9 @@ const CalculatorScreen = () => {
                         <Button title="-500" onPress={() => updateLifePoints(1, -500)} />
                         <Button title="-1000" onPress={() => updateLifePoints(1, -1000)} />
                     </View>
-
                 </View>
 
                 <View style={styles.calculator}>
-
                     <View style={{paddingLeft: 15, paddingRight: 15, width: 200, padding: 5, borderRadius: 10, backgroundColor: '#01172f', alignItems: "center", marginTop: 10}}>
                         <Text style={styles.playerName}>{player2name}</Text>
                     </View>
@@ -126,9 +132,7 @@ const CalculatorScreen = () => {
                 <TouchableOpacity style={styles.cancelButton} onPress={handleDuelCancel}>
                     <Text style={styles.cancelButtonText}>CANCEL DUEL</Text>
                 </TouchableOpacity>
-
             </ImageBackground>
-
         </View>
     );
 };

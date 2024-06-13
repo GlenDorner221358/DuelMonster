@@ -3,20 +3,20 @@ import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
-import { getUserName } from '../services/DbService';
+import { getUserDataByEmail } from '../services/DbService';
 
 function HomeScreen({ navigation }) {
 
-  // Getting the currently logged user's name
-  const [userName, setUserName] = useState('');
+  // The current users name
+  const [userData, setUserData] = useState('');
 
   const handleGettingOfData = async () => {
     try {
-      const name = await getUserName();
-      console.log('Received username: ', name); // Logging the received data
-      setUserName(name);
+      const data = await getUserDataByEmail();
+      console.log('Received username: ', data.name); // Logging the received data
+      setUserData(data);
     } catch (error) {
-      console.error('Error fetching username:', error);
+      console.error('Error fetching user:', error);
     }
   };
 
@@ -48,17 +48,18 @@ function HomeScreen({ navigation }) {
 
       <ImageBackground
         style={styles.backgroundImage}
-        source={require("../assets/HomeBackground.jpg")}  
+        source={require("../assets/homeBackground.jpg")}  
       >
 
       <View style={{ backgroundColor: '#D1AC00', marginBottom: 20, padding: 15, borderRadius: 10, marginTop: 50 }}>
-        <Text style={styles.title}>Welcome {userName}</Text>
+        <Text style={styles.title}>Welcome {userData.name}</Text>
       </View>
 
-      {/* <Image  */}
-        {/* source={require('../assets/blue_eyes.png')} */}
-        {/* style={styles.CoolMonster} */}
-      {/* /> */}
+      <View style={styles.yourWinsPanel}>
+        <Text style={{color: "white", fontSize: 21, fontWeight: "bold"}}> Your wins</Text>
+        <Text style={{color: "#D1AC00", fontSize: 25, fontWeight: "bold"}}> {userData.wins} </Text>
+      </View>
+      
       <View style={{flex: 1}}></View>
 
       
@@ -120,6 +121,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: 338,
-    backgroundColor: "red"
+  },
+  yourWinsPanel: {
+    flex: 1,
+    maxHeight: 100,
+    width: 150,
+    padding: 15,
+    backgroundColor: "#01172f",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
   }
 });

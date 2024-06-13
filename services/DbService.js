@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { db } from "../firebase";
-import { collection, addDoc, setDoc, getDocs, doc, query, orderBy, where, updateDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, getDocs, getDoc, doc, query, orderBy, where, updateDoc } from "firebase/firestore";
 
 var loggedEmail = "";
 
@@ -44,7 +44,8 @@ export const handleRegister = async (name, email, password) => {
         try {
             const docRef = await setDoc(doc(db, "users", user.email), {
                 name: name,
-                email: user.email
+                email: user.email,
+                wins: 0
             });
             console.log("Document written with ID: ", user.email);
             return true;
@@ -94,6 +95,78 @@ export const getAllCompetitions = async () => {
     return allItems
 }
 
+// Get user data by name
+export const getUserData = async (userName) => {
+    try {
+        const q = query(collection(db, "users"), where("name", "==", userName));
+        const querySnapshot = await getDocs(q);
+        let userData = null;
+
+        querySnapshot.forEach((doc) => {
+            userData = { id: doc.id, ...doc.data() };
+        });
+
+        if (userData) {
+            return userData;
+        } else {
+            console.log("No such user!");
+            return null;
+        }
+    } catch (e) {
+        console.error("Error fetching user data", e);
+        return null;
+    }
+};
+
+// Get user data by email
+export const getUserDataByEmail = async () => {
+    try {
+        const q = query(collection(db, "users"), where("email", "==", loggedEmail));
+        const querySnapshot = await getDocs(q);
+        let userData = null;
+
+        querySnapshot.forEach((doc) => {
+            userData = { id: doc.id, ...doc.data() };
+        });
+
+        if (userData) {
+            return userData;
+        } else {
+            console.log("No such user!");
+            return null;
+        }
+    } catch (e) {
+        console.error("Error fetching user data", e);
+        return null;
+    }
+};
+
+// Update user data by username
+export const updateUserData = async (userName, updatedData) => {
+    try {
+        const q = query(collection(db, "users"), where("name", "==", userName));
+        const querySnapshot = await getDocs(q);
+        let userId = null;
+
+        querySnapshot.forEach((doc) => {
+            userId = doc.id;
+        });
+
+        if (userId) {
+            const userRef = doc(db, "users", userId);
+            await updateDoc(userRef, updatedData);
+            console.log("User data updated for: ", userName);
+            return true;
+        } else {
+            console.log("No such user!");
+            return false;
+        }
+    } catch (e) {
+        console.error("Error updating user data", e);
+        return false;
+    }
+};
+
 // Get the logged user's name
 export const getUserName = async () => {
     try {
@@ -115,6 +188,19 @@ export const getUserName = async () => {
     } catch (e) {
         console.error("Error fetching user name", e);
         return null;
+    }
+}
+
+// Edit USER by id
+export const editUserById = async (id, updatedData) => {
+    try {
+        const docRef = doc(db, "users", id);
+        await updateDoc(docRef, updatedData);
+        console.log("Document updated with ID: ", id);
+        return true;
+    } catch (e) {
+        console.error("Error updating document", e);
+        return false;
     }
 }
 

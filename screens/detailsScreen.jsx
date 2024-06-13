@@ -16,6 +16,7 @@ function DetailsScreen({ navigation, route }) {
         try {
             const name = await getUserName();
             console.log('Received username: ', name); // Logging the received data
+            console.log("Duel ID: ", competitionData.id)
             setUserName(name);
         } catch (error) {
             console.error('Error fetching username:', error);
@@ -96,18 +97,23 @@ function DetailsScreen({ navigation, route }) {
                 )}
 
 
-                {updatedCompetitionData.player2name === userName && (
+                {(updatedCompetitionData.player1name === userName || updatedCompetitionData.player2name === userName) &&
+                updatedCompetitionData.player2name !== 'Looking for player 2...' &&
+                updatedCompetitionData.winner === '' && (
                     <View style={styles.Bertram}>
                         <Pressable style={{ alignItems: "center" }} 
                             onPress={() => navigation.navigate('calculator', { 
                                 player1name: updatedCompetitionData.player1name, 
-                                player2name: userName 
-                                })}
+                                player2name: updatedCompetitionData.player2name,
+                                oldID: competitionData.id
+                            })}
                         >
                             <Text style={{ color: "white", fontSize: 21, fontWeight: 'bold', fontStyle: 'italic' }}> Start Duel </Text>
                         </Pressable>
                     </View>
                 )}
+               
+                
             </View>
 
             {/* Navigate to competitions page */}
