@@ -95,6 +95,22 @@ export const getAllCompetitions = async () => {
     return allItems
 }
 
+// Get all users and sort by wins in descending order
+export const getAllUsersByWins = async () => {
+    var allUsers = [];
+    var q = query(collection(db, "users"));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        allUsers.push({... doc.data(), id: doc.id});
+    });
+
+    // Sort users by wins in descending order
+    allUsers.sort((a, b) => b.wins - a.wins);
+    
+    return allUsers;
+}
+
 // Get user data by name
 export const getUserData = async (userName) => {
     try {
