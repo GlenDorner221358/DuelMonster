@@ -5,9 +5,6 @@
 ![GitHub watchers](https://img.shields.io/github/watchers/GlenDorner221358/DuelMonster?color=%000000)
 ![GitHub language count](https://img.shields.io/github/languages/count/GlenDorner221358/DuelMonster?color=%000000)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/GlenDorner221358/DuelMonster?color=%000000)
-[![LinkedIn][linkedin-shield]][linkedin-url]
-[![Instagram][instagram-shield]][instagram-url]
-[![Behance][behance-shield]][behance-url]
 
 <!-- HEADER SECTION -->
 <h5 align="center" style="padding:0;margin:0;">Glen Dorner</h5>
@@ -128,6 +125,15 @@ Run the following in the command-line to install all the required dependencies:
    npm i
    ```
 
+3. Link Your Firebase Project</br>
+in the firebase.js file
+
+4. Start the project</br>
+Run the following in the command-line to start the project:
+   ```sh
+   npm start
+   ```
+
 <!-- FEATURES AND FUNCTIONALITY-->
 ## Features and Functionality
 
@@ -225,7 +231,7 @@ Contributions are what makes the open-source community such an amazing place to 
 <!-- AUTHORS -->
 ## Authors
 
-* **Your Name & Surname** - [GlenDorner](https://github.com/GlenDorner221358)
+* **Glen Dorner** - [GlenDorner](https://github.com/GlenDorner221358)
 
 <!-- LICENSE -->
 ## License
@@ -235,7 +241,7 @@ Distributed under the MIT License. See `LICENSE` for more information.\
 <!-- LICENSE -->
 ## Contact
 
-* **Your Name & Surname** - [glendorner11@gmail.com](mailto:glendorner11@gmail.com)
+* **Glen Dorner** - [glendorner11@gmail.com](mailto:glendorner11@gmail.com)
 * **Project Link** - https://github.com/GlenDorner221358/DuelMonster
 
 <!-- ACKNOWLEDGEMENTS -->

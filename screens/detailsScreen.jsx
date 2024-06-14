@@ -46,7 +46,6 @@ function DetailsScreen({ navigation, route }) {
 
             // set player2name to the username and set open to false
             const updatedData = { ...competitionData, player2name: userName, open: false };
-            setDataAfterJoin(updatedData);
 
             await editCompetitionById(compId, updatedData);
             setUpdatedCompetitionData(updatedData);
