@@ -1,3 +1,4 @@
+// IMPORTS
 import { StyleSheet, View, Text, Pressable, ImageBackground } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
@@ -7,10 +8,13 @@ import { getUserDataByEmail, getAllUsersByWins } from '../services/DbService';
 
 function HomeScreen({ navigation }) {
 
-  // The current user's data
+  // CURRENT USERS DATA
   const [userData, setUserData] = useState('');
+
+  // TOP 3 USERS DATA
   const [topUsers, setTopUsers] = useState([]);
 
+  // GETS EVERYTHING WE NEED BY THE LOGGED USERS EMAIL
   const handleGettingOfData = async () => {
     try {
       const data = await getUserDataByEmail();
@@ -24,6 +28,7 @@ function HomeScreen({ navigation }) {
     }
   };
 
+  // CALLS THE ABOVE FUNCTION WHEN PAGE IS DISPLAYED
   useFocusEffect(
     React.useCallback(() => {
       handleGettingOfData();
@@ -33,7 +38,7 @@ function HomeScreen({ navigation }) {
     }, [])
   );
 
-  // Sign out function
+  // SIGN OUT FUNCTION
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
@@ -46,6 +51,7 @@ function HomeScreen({ navigation }) {
       });
   };
 
+  // PAGE CONTENT
   return (
     <View style={styles.container}>
       <ImageBackground

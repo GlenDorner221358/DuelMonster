@@ -1,13 +1,15 @@
+// IMPORTS
 import { StyleSheet, View, Text, TextInput, Button, Image, Pressable, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import { handleLogin } from '../services/DbService';
 
 function LoginScreen( {navigation} ) {
 
+  // USERS EMAIL AND PASSWORD
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  //Login Function
+  //LOGIN FUNCTION
   const login = () => { handleLogin(email, password) }
 
   return (

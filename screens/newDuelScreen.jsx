@@ -1,16 +1,19 @@
+// IMPORTS
 import { StyleSheet, View, Text, TextInput, Button, Image, Pressable, TouchableOpacity, Switch } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { createNewCompetition, getUserName } from '../services/DbService'; // Import getUserName from the correct path
 
 const NewDuelScreen = ({ navigation }) => {
+    
+    // LITERALLY ALL OF THE DATA WE NEED TO GET/SET WHEN MAKING A NEW DUEL
     const [player1name, setPlayer1name] = useState('');
     const [player2name, setPlayer2name] = useState('');
     const [date, setDate] = useState(null); // Firestore timestamp format
-    const [open, setOpen] = useState(false); // Boolean
     const [password, setPassword] = useState('');
     const [winner, setWinner] = useState('');
 
+    // HANDLES MAKING A NEW DUEL
     const handleCreation = async () => {
         // If player2name is empty, set it to default
         const player2NameToUse = player2name.trim() ? player2name : 'Looking for player 2...';
@@ -39,12 +42,11 @@ const NewDuelScreen = ({ navigation }) => {
                 navigation.navigate('calculator', { player1name, player2name: player2NameToUse });
             }
         } else {
-            // Handle validation failure
             console.error('Failed to create a new duel.');
         }
     };
 
-    // To set player1 name equal to the user's name
+    // SETS PLAYER 1 NAME = LOGGED USERS USERNAME
     const handleGettingOfData = async () => {
         try {
             const name = await getUserName();
@@ -55,6 +57,7 @@ const NewDuelScreen = ({ navigation }) => {
         }
     };
 
+    // CALLS THE FUNCTION ABOVE
     useFocusEffect(
         React.useCallback(() => {
             handleGettingOfData();

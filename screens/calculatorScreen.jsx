@@ -1,17 +1,22 @@
+// IMPORTS
 import { StyleSheet, View, Text, TouchableOpacity, Button, ImageBackground } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { editCompetitionById, getNewDuelId, getUserData, updateUserData } from '../services/DbService';
 
+
 const CalculatorScreen = () => {
+    // GET DATA FROM PREVIOS SCREEN
     const navigation = useNavigation();
     const route = useRoute();
     const { player1name, player2name, oldID } = route.params;
 
+    // SET DATA WE GOT
     const [player1LifePoints, setPlayer1LifePoints] = useState(8000);
     const [player2LifePoints, setPlayer2LifePoints] = useState(8000);
     const [duelId, setDuelId] = useState(oldID || "");
 
+    // SET THE DUEL ID SO WE CAN COMMUNICATE WITH FIRESTORE
     useEffect(() => {
         const initializeDuelId = async () => {
             if (!oldID) {
@@ -26,6 +31,7 @@ const CalculatorScreen = () => {
         initializeDuelId();
     }, [oldID]);
 
+    // SETS THE DUEL WINNER TO UNDECIDED AND TAKES YOU BACK TO THE COMPETITIONS SCREEN
     const handleDuelCancel = async () => {
         const items = { 
             winner: "",
@@ -38,6 +44,9 @@ const CalculatorScreen = () => {
         }
     };
 
+    // WHEN EITHER PLAYERS LP HITS 0 THE DUEL IS ENDED
+    // THE DUEL'S WIN VALUE IS SET TO THE USERNAME OF THE WINNER
+    // AND THE WINNER'S WINS GETS +1'ED
     const handleDuelOver = async (winner) => {
         try {
             // Update competition data with the winner
@@ -67,6 +76,7 @@ const CalculatorScreen = () => {
         }
     };
 
+    //GLORIFIED CALCULATOR
     const updateLifePoints = (player, amount) => {
         if (player === 1) {
             const newLifePoints = player1LifePoints + amount;
@@ -79,6 +89,8 @@ const CalculatorScreen = () => {
         }
     };
 
+
+    // WHAT IS DISPLAYED
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -100,10 +112,10 @@ const CalculatorScreen = () => {
                     </View>
 
                     <View style={styles.buttonsContainer1}>
-                        <Button title="-50" onPress={() => updateLifePoints(1, -50)} />
-                        <Button title="-100" onPress={() => updateLifePoints(1, -100)} />
-                        <Button title="-500" onPress={() => updateLifePoints(1, -500)} />
-                        <Button title="-1000" onPress={() => updateLifePoints(1, -1000)} />
+                        <Button title="-50" onPress={() => updateLifePoints(1, -50)} style={{color: 'red',}}/>
+                        <Button title="-100" onPress={() => updateLifePoints(1, -100)} style={{color: 'red',}}/>
+                        <Button title="-500" onPress={() => updateLifePoints(1, -500)} style={{color: 'red',}}/>
+                        <Button title="-1000" onPress={() => updateLifePoints(1, -1000)} style={{color: 'red',}}/>
                     </View>
                 </View>
 
@@ -122,10 +134,10 @@ const CalculatorScreen = () => {
                     </View>
 
                     <View style={styles.buttonsContainer2}>
-                        <Button title="-50" onPress={() => updateLifePoints(2, -50)} />
-                        <Button title="-100" onPress={() => updateLifePoints(2, -100)} />
-                        <Button title="-500" onPress={() => updateLifePoints(2, -500)} />
-                        <Button title="-1000" onPress={() => updateLifePoints(2, -1000)} />
+                        <Button title="-50" onPress={() => updateLifePoints(2, -50)} style={{color: 'red',}}/>
+                        <Button title="-100" onPress={() => updateLifePoints(2, -100)} style={{color: 'red',}}/>
+                        <Button title="-500" onPress={() => updateLifePoints(2, -500)} style={{color: 'red',}}/>
+                        <Button title="-1000" onPress={() => updateLifePoints(2, -1000)} style={{color: 'red',}}/>
                     </View>
                 </View>
 

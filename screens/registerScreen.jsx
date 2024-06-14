@@ -1,13 +1,16 @@
+// IMPORTS
 import { StyleSheet, View, Image, Text, TextInput, Button, Pressable, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import { handleRegister } from '../services/DbService'
 
 function RegisterScreen( {navigation} ) {
   
+  // ALL THE USERDATA WE NEED
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // REGISTER FUNCTION
   const register = () => { handleRegister(name, email, password) }
 
   return (

@@ -1,14 +1,17 @@
+// IMPORTS
 import { StyleSheet, View, Text, Pressable, TouchableOpacity, FlatList, TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { getAllCompetitions } from '../services/DbService';
 
 function CompetitionsScreen({ navigation }) {
+    // CONSTS
     const [allComps, setAllComps] = useState([]);
     const [filteredComps, setFilteredComps] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [showAllDuels, setShowAllDuels] = useState(true);
 
+    // STARTUP FUNCTION THAT GETS ALL THE DATA
     const handleGettingOfData = async () => {
         const allData = await getAllCompetitions();
         console.log("Received competitions data:", allData); // Logging the received data
@@ -16,6 +19,7 @@ function CompetitionsScreen({ navigation }) {
         setFilteredComps(allData);
     };
 
+    // CALLING THE STARTUP FUNCTION WHENEVER THE PAGE IS DISPLAYED
     useFocusEffect(
         React.useCallback(() => {
             handleGettingOfData();
@@ -25,6 +29,7 @@ function CompetitionsScreen({ navigation }) {
         }, [])
     );
 
+    // FILTER COMPETITIONS TO ONLY DISPLAY JOINABLE ONES
     const filterCompetitions = () => {
         let filteredData = allComps;
 
@@ -46,6 +51,7 @@ function CompetitionsScreen({ navigation }) {
         filterCompetitions();
     }, [searchText, showAllDuels, allComps]);
 
+    // DUEL CARD WHICH IS RE-USED
     const renderItem = ({ item }) => (
         <View style={styles.singleCompPanel}>
             <View style={{ justifyContent: "center", alignItems: "center", width: 250, height: "auto" }}>
@@ -65,6 +71,7 @@ function CompetitionsScreen({ navigation }) {
         </View>
     );
 
+    // ACTUAL SCREEN
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Duels</Text>

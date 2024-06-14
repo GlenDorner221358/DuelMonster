@@ -1,3 +1,4 @@
+// IMPORTS
 import { StyleSheet, View, Text, TextInput, Button, Image, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import { editCompetitionById } from '../services/DbService';
@@ -5,13 +6,17 @@ import { useFocusEffect } from '@react-navigation/native';
 import { getUserName } from '../services/DbService';
 
 function DetailsScreen({ navigation, route }) {
-    const [dataAfterJoin, setDataAfterJoin] = useState([]);
+
+    // GETS THE COMPETITION DATA BY THE ID PASSED FROM THE ALL COMPS SCREEN
     const { competitionData } = route.params;
 
-    // Getting the currently logged user's name
+    // GETS THE CURRENTLY LOGGED USERS NAME
     const [userName, setUserName] = useState('');
+
+    // UPDATES THE COMPETITION DATA WHEN U JOIN ONE
     const [updatedCompetitionData, setUpdatedCompetitionData] = useState(competitionData);
 
+    // GETS ALL THE DATA WE NEED
     const handleGettingOfData = async () => {
         try {
             const name = await getUserName();
@@ -23,20 +28,23 @@ function DetailsScreen({ navigation, route }) {
         }
     };
 
+    // CALLS THE ABOVE FUNCTION WHEN THE PAGE IS DISPLAYED
     useFocusEffect(
         React.useCallback(() => {
             handleGettingOfData();
-            return () => {
-                // Cleanup if necessary
-            };
+            return () => {};
         }, [])
     );
 
+    // WHEN U JOIN A COMPETITION, THIS FUNCTION HAPPENS
+    // UPDATES THE PLAYER 2 NAME TO THE CURRENT USERS NAME
+    // UNLESS THE CURRENT USER IS PLAYER1
+    //THEN IT DOES NOTHING LMAO
     const handleJoin = async () => {
         try {
             var compId = competitionData.id;
 
-            // Need to set player2name to the username and open to false
+            // set player2name to the username and set open to false
             const updatedData = { ...competitionData, player2name: userName, open: false };
             setDataAfterJoin(updatedData);
 
@@ -47,6 +55,7 @@ function DetailsScreen({ navigation, route }) {
         }
     };
 
+    // THE SCREEN
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Details</Text>
@@ -88,6 +97,8 @@ function DetailsScreen({ navigation, route }) {
                     
                 </View>
 
+                {/* JOIN IS CONDITIONALLY RENDERED */}
+                {/* ONLY DISPLAYS WHEN USERNAME != PLAYER1 OR PLAYER2 AND PLAYER 2 IS LOOKING */}
                 {updatedCompetitionData.player2name === 'Looking for player 2...' && userName !== updatedCompetitionData.player1name && (
                     <View style={styles.Bertram}>
                         <Pressable style={{ alignItems: "center" }} onPress={handleJoin}>
@@ -96,7 +107,7 @@ function DetailsScreen({ navigation, route }) {
                     </View>
                 )}
 
-
+                {/* TAKES U TO THE DUEL SCREEN WITH PLAYERS THAT ARE IN THE DUEL */}
                 {(updatedCompetitionData.player1name === userName || updatedCompetitionData.player2name === userName) &&
                 updatedCompetitionData.player2name !== 'Looking for player 2...' &&
                 updatedCompetitionData.winner === '' && (
@@ -116,7 +127,7 @@ function DetailsScreen({ navigation, route }) {
                 
             </View>
 
-            {/* Navigate to competitions page */}
+            {/* BACK BUTTON */}
             <View style={styles.Bertram}>
                 <Pressable style={{ alignItems: "center" }} onPress={() => navigation.navigate('competitions')}>
                     <Text style={{ color: "white", fontSize: 21, fontWeight: 'bold' }}> Back </Text>
