@@ -24,7 +24,7 @@
       <a href="https://github.com/GlenDorner221358/DuelMonster"><strong>Explore the docs »</strong></a>
    <br />
    <br />
-   <a href="path/to/demonstration/video">View Demo</a>
+   <a href="https://drive.google.com/file/d/1k2Zo2JPbjB1UmhzJ0QvdfqNBATeV-7nb/view?usp=sharing">View Demo</a>
     ·
     <a href="https://github.com/GlenDorner221358/DuelMonster/issues">Report Bug</a>
     ·
@@ -210,7 +210,7 @@ The `Development Process` is the technical implementations and functionality don
 
 To see a run through of the application, click below:
 
-[View Demonstration](path/to/video/demonstration)
+[View Demonstration](https://drive.google.com/file/d/1k2Zo2JPbjB1UmhzJ0QvdfqNBATeV-7nb/view?usp=sharing)
 
 <!-- ROADMAP -->
 ## Roadmap
