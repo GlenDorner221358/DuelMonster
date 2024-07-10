@@ -1,10 +1,10 @@
 <!-- Repository Information & Links-->
 <br />
 
-![GitHub repo size](https://img.shields.io/github/repo-size/GlenDorner221358/DuelMonster?color=%000000)
-![GitHub watchers](https://img.shields.io/github/watchers/GlenDorner221358/DuelMonster?color=%000000)
-![GitHub language count](https://img.shields.io/github/languages/count/GlenDorner221358/DuelMonster?color=%000000)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/GlenDorner221358/DuelMonster?color=%000000)
+![GitHub repo size](https://img.shields.io/github/repo-size/GlenDorner221358/DuelMonster)
+![GitHub watchers](https://img.shields.io/github/watchers/GlenDorner221358/DuelMonster)
+![GitHub language count](https://img.shields.io/github/languages/count/GlenDorner221358/DuelMonster)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/GlenDorner221358/DuelMonster)
 
 <!-- HEADER SECTION -->
 <h5 align="center" style="padding:0;margin:0;">Glen Dorner</h5>
